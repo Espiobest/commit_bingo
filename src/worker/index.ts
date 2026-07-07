@@ -131,7 +131,7 @@ app.get("/api/user", async (c) => {
 		});
 
 		if (!userResponse.ok) {
-			return c.json({ error: "Failed to fetch user data" }, userResponse.status);
+			return c.json({ error: "Failed to fetch user data" }, userResponse.status as never);
 		}
 
 		const userData = await userResponse.json();
@@ -160,7 +160,7 @@ app.get("/api/repos", async (c) => {
 		});
 
 		if (!reposResponse.ok) {
-			return c.json({ error: "Failed to fetch repositories" }, reposResponse.status);
+			return c.json({ error: "Failed to fetch repositories" }, reposResponse.status as never);
 		}
 
 		const repos = await reposResponse.json();
