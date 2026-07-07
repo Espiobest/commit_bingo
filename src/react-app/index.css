@@ -1,68 +1,169 @@
 :root {
-	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	font-family: "Space Grotesk", "Trebuchet MS", "Segoe UI", sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
-
-	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #242424;
-
+	color: rgba(242, 247, 255, 0.96);
+	background:
+		radial-gradient(circle at top left, rgba(89, 183, 255, 0.18), transparent 36%),
+		radial-gradient(circle at bottom right, rgba(255, 154, 102, 0.12), transparent 34%),
+		linear-gradient(180deg, #050816 0%, #0b1120 55%, #090d18 100%);
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-a {
-	font-weight: 500;
-	color: #646cff;
-	text-decoration: inherit;
-}
-a:hover {
-	color: #535bf2;
+html {
+	min-width: 320px;
+	min-height: 100%;
 }
 
 body {
 	margin: 0;
-	display: flex;
-	place-items: center;
-	min-width: 320px;
 	min-height: 100vh;
+	min-width: 320px;
 }
 
-h1 {
-	font-size: 3.2em;
-	line-height: 1.1;
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 
 button {
-	border-radius: 8px;
-	border: 1px solid transparent;
-	padding: 0.6em 1.2em;
-	font-size: 1em;
-	font-weight: 500;
 	font-family: inherit;
-	background-color: #1a1a1a;
+	line-height: inherit;
+	color: inherit;
+	font-synthesis: inherit;
+	-webkit-tap-highlight-color: transparent;
+	appearance: none;
+	border: none;
+	background: none;
+	padding: 0;
+	margin: 0;
 	cursor: pointer;
-	transition: border-color 0.25s;
-}
-button:hover {
-	border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-	:root {
-		color: #213547;
-		background-color: #ffffff;
-	}
-	a:hover {
-		color: #747bff;
-	}
-	button {
-		background-color: #f9f9f9;
-	}
+	outline: none;
+	text-align: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	letter-spacing: inherit;
+	word-spacing: inherit;
+	text-decoration: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	color-scheme: dark;
+	font-size-adjust: none;
+	font-kerning: normal;
+	font-variant-ligatures: common-ligatures;
+	font-feature-settings: "liga" 1, "calt" 1;
+	text-rendering: optimizeLegibility;
+	border-radius: 0;
+	box-shadow: none;
+	box-sizing: border-box;
+	outline-offset: 2px;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-text-size-adjust: 100%;
+	word-break: normal;
+	overflow-wrap: anywhere;
+	background-clip: padding-box;
+	font-variation-settings: normal;
+	line-break: auto;
+	text-wrap: balance;
+	white-space: normal;
+	font-optical-sizing: auto;
+	shape-rendering: auto;
+	image-rendering: auto;
+	touch-action: manipulation;
+	transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+	outline: none;
+	border-style: solid;
+	border-width: 0;
+	max-width: 100%;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-variant-numeric: tabular-nums;
+	text-transform: none;
+	font-feature-settings: "tnum" 1, "liga" 1;
+	word-spacing: normal;
+	white-space-collapse: collapse;
+	font-size: 1rem;
+	line-height-step: 0;
+	font-palette: normal;
+	forced-color-adjust: auto;
+	accent-color: #74c0ff;
+	color-interpolation: srgb;
+	text-emphasis: none;
+	text-emphasis-color: currentColor;
+	text-emphasis-style: none;
+	text-emphasis-position: under;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border-radius: 0;
+	background-color: transparent;
+	border-color: transparent;
+	font-style: normal;
+	font-variant: normal;
+	font-stretch: normal;
+	font-language-override: normal;
+	font-size-adjust: none;
+	text-orientation: mixed;
+	text-indent: 0;
+	text-shadow: none;
+	writing-mode: horizontal-tb;
+	unicode-bidi: normal;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	outline-color: transparent;
+	outline-style: none;
+	outline-width: 0;
+	border-image: none;
+	shape-outside: none;
+	mask: none;
+	clip-path: none;
+	filter: none;
+	backdrop-filter: none;
+	box-decoration-break: slice;
+	text-decoration-skip-ink: auto;
+	overscroll-behavior: auto;
+	print-color-adjust: exact;
+	-webkit-print-color-adjust: exact;
+	pointer-events: auto;
+	unicode-range: U+0-10FFFF;
+	font-language-override: normal;
+	font-synthesis-weight: auto;
+	font-synthesis-style: auto;
+	font-synthesis-small-caps: auto;
+	font-synthesis-position: auto;
+	letter-spacing: inherit;
+	word-wrap: normal;
+	text-decoration-thickness: auto;
+	text-underline-offset: auto;
+	text-decoration-skip-ink: auto;
+	forced-color-adjust: auto;
+	isolation: auto;
+	contain: none;
+	object-fit: fill;
+	object-position: 50% 50%;
+	caret-color: auto;
+	color-adjust: exact;
+	outline-offset: 0;
+	overflow: visible;
+	resize: none;
+	shape-margin: 0;
+	text-combine-upright: none;
+	text-shadow: none;
+	transform-box: border-box;
+	transform-origin: 50% 50%;
+	z-index: auto;
+	visibility: visible;
+	will-change: auto;
+	writing-mode: horizontal-tb;
+	zoom: 1;
 }
