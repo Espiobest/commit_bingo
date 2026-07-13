@@ -1,90 +1,83 @@
-# React + Vite + Hono + Cloudflare Workers
+# 🎯 Commit Bingo
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/vite-react-template)
+See the tropes and patterns hiding in your commit history. **Commit Bingo** scans your GitHub repository commit logs, classifies developer tropes (such as `WIP`, `quick-fix`, `typo-fix`, `dependency-bump`, `remove-dead-code`, `add-null-check`), and builds an interactive bingo card mapping them to your real commit activity. It also includes an AI-powered code reviewer that generates a roast and calculates your dev "Chaos Rating."
 
-This template provides a minimal setup for building a React application with TypeScript and Vite, designed to run on Cloudflare Workers. It features hot module replacement, ESLint integration, and the flexibility of Workers deployments.
+Live website: [bingo.espiobest.me](https://bingo.espiobest.me)
 
-![React + TypeScript + Vite + Cloudflare Workers](https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/fc7b4b62-442b-4769-641b-ad4422d74300/public)
+---
 
-<!-- dash-content-start -->
+## ✨ Features
 
-🚀 Supercharge your web development with this powerful stack:
+- **GitHub OAuth Login**: Securely connect your GitHub account to analyze public and private repositories.
+- **Interactive Bingo Board**: A $5 \times 5$ grid where each square represents a common developer trope. Matched squares glow and show the count of matching commits.
+- **Evidence Explorer**: Click on any matched tile to expand it and see details, including file changes and the specific commits that matched the trope.
+- **AI Dev Roast & Archetype**: A custom AI reviewer analyzes your commit messages to label your developer archetype and roast your habits.
+- **Time Window Filters**: Quickly focus your analysis on a specific window (Past Week, Past Month, Past 90 Days, or custom dates).
+- **iOS-style Share Toast**: Click "Share card" to capture a high-quality PNG of your bingo board to the clipboard, complete with an iOS-style corner preview thumbnail and success bubble.
 
-- [**React**](https://react.dev/) - A modern UI library for building interactive interfaces
-- [**Vite**](https://vite.dev/) - Lightning-fast build tooling and development server
-- [**Hono**](https://hono.dev/) - Ultralight, modern backend framework
-- [**Cloudflare Workers**](https://developers.cloudflare.com/workers/) - Edge computing platform for global deployment
+---
 
-### ✨ Key Features
+## 🛠️ Tech Stack
 
-- 🔥 Hot Module Replacement (HMR) for rapid development
-- 📦 TypeScript support out of the box
-- 🛠️ ESLint configuration included
-- ⚡ Zero-config deployment to Cloudflare's global network
-- 🎯 API routes with Hono's elegant routing
-- 🔄 Full-stack development setup
-- 🔎 Built-in Observability to monitor your Worker
+- **Frontend**: [React 19](https://react.dev/) + [Vite](https://vite.dev/) + Vanilla CSS (modern dark-theme layout with micro-animations).
+- **Backend API**: [Hono](https://hono.dev/) framework running on [Cloudflare Workers](https://developers.cloudflare.com/workers/).
+- **AI Processing**: 
+  - **Trope Classification**: Cloudflare Workers AI (`@cf/meta/llama-3-8b-instruct`) for rapid text analysis.
+  - **Roast Generation**: Gemini API for developer archetype and roast generation.
+- **Hosting**: Cloudflare Workers Static Assets for rapid global delivery.
 
-Get started in minutes with local development or deploy directly via the Cloudflare dashboard. Perfect for building modern, performant web applications at the edge.
+---
 
-<!-- dash-content-end -->
+## 💻 Local Development
 
-## Getting Started
+### 1. Configuration & Secrets
+Create a `.dev.vars` file in the root of the `commit-bingo` directory:
+```env
+# GitHub OAuth credentials (register an OAuth app in GitHub Settings -> Developer Settings)
+# Authorization callback URL should be: http://localhost:5173/api/auth/callback (for local dev)
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
 
-To start a new project with this template, run:
-
-```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/vite-react-template
+# Gemini API Key for roasts
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-A live deployment of this template is available at:
-[https://react-vite-template.templates.workers.dev](https://react-vite-template.templates.workers.dev)
-
-## Development
-
-Install dependencies:
-
+### 2. Run Locally
+Install dependencies and start the development server:
 ```bash
 npm install
-```
-
-Start the development server with:
-
-```bash
 npm run dev
 ```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-Your application will be available at [http://localhost:5173](http://localhost:5173).
+---
 
-## Production
+## 🚀 Production Configuration & Deployment
 
-Build your project for production:
+### Environment Configuration Switching
+The `vite.config.ts` dynamically loads config files depending on the Vite mode:
+- **Development**: Uses `wrangler.dev.json` (deploys to the `commit-bingo-dev` worker).
+- **Production**: Uses `wrangler.json` (deploys to the `commit-bingo` worker).
 
-```bash
-npm run build
+### Routing & Static Assets
+The project uses the Cloudflare Workers Static Assets framework. To ensure browser page navigation requests on `/api/*` reach the backend Hono router rather than being intercepted by the SPA fallback, the `assets` block in `wrangler.json` utilizes the `run_worker_first` setting:
+
+```json
+"assets": {
+	"directory": "./dist/client",
+	"not_found_handling": "single-page-application",
+	"run_worker_first": ["/api/*"]
+}
 ```
 
-Preview your build locally:
+### Deploy to Cloudflare Workers
 
-```bash
-npm run preview
-```
-
-Deploy your project to Cloudflare Workers:
-
+Build the production assets and deploy the worker:
 ```bash
 npm run build && npm run deploy
 ```
 
-Monitor your workers:
-
+Monitor your live logs:
 ```bash
 npx wrangler tail
 ```
-
-## Additional Resources
-
-- [Cloudflare Workers Documentation](https://developers.cloudflare.com/workers/)
-- [Vite Documentation](https://vitejs.dev/guide/)
-- [React Documentation](https://reactjs.org/)
-- [Hono Documentation](https://hono.dev/)
