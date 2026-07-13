@@ -68,6 +68,12 @@ interface BingoTile {
 	isFreeSpace?: boolean;
 }
 
+interface ScreenshotToast {
+	imageUri: string;
+	message: string;
+	hiding: boolean;
+}
+
 const BOARD_SIDE = 5;
 const BOARD_TILE_COUNT = BOARD_SIDE * BOARD_SIDE;
 const FREE_SPACE_INDEX = Math.floor(BOARD_TILE_COUNT / 2);
@@ -326,6 +332,49 @@ function App() {
 	const [roastError, setRoastError] = useState("");
 	const [rerollsLeft, setRerollsLeft] = useState(3);
 	const [activePreset, setActivePreset] = useState<string | null>("all");
+
+	const [screenshotToast, setScreenshotToast] = useState<ScreenshotToast | null>(null);
+
+	const closeToast = () => {
+		setScreenshotToast((prev) => {
+			if (!prev || prev.hiding) return prev;
+			setTimeout(() => {
+				URL.revokeObjectURL(prev.imageUri);
+				setScreenshotToast(null);
+			}, 400);
+			return { ...prev, hiding: true };
+		});
+	};
+
+	const showScreenshotToast = (blob: Blob, message: string) => {
+		setScreenshotToast((prev) => {
+			if (prev) {
+				URL.revokeObjectURL(prev.imageUri);
+			}
+			const imageUri = URL.createObjectURL(blob);
+			return {
+				imageUri,
+				message,
+				hiding: false,
+			};
+		});
+	};
+
+	useEffect(() => {
+		if (screenshotToast && !screenshotToast.hiding) {
+			const timer = setTimeout(() => {
+				setScreenshotToast((prev) => {
+					if (!prev || prev.hiding) return prev;
+					setTimeout(() => {
+						URL.revokeObjectURL(prev.imageUri);
+						setScreenshotToast(null);
+					}, 400);
+					return { ...prev, hiding: true };
+				});
+			}, 5000);
+			return () => clearTimeout(timer);
+		}
+	}, [screenshotToast]);
 
 	const [detailsCache, setDetailsCache] = useState<Record<string, { files: CommitFileSummary[]; digest: CommitDigest } | null>>({});
 	const [detailsLoading, setDetailsLoading] = useState<Record<string, boolean>>({});
@@ -603,6 +652,7 @@ function App() {
 					})
 				]);
 				setShareStatus("Board image and link copied to clipboard!");
+				showScreenshotToast(blob, "Board and link copied!");
 			} catch (clipboardError) {
 				console.error("Failed to copy image + text, copying image only...", clipboardError);
 				try {
@@ -612,6 +662,7 @@ function App() {
 						})
 					]);
 					setShareStatus("Board image copied to clipboard!");
+					showScreenshotToast(blob, "Board image copied!");
 				} catch (imgOnlyError) {
 					console.error("Failed to copy image only, copying link text...", imgOnlyError);
 					await navigator.clipboard.writeText(`${shareTitle}\n${shareText}\n${shareUrl}`);
@@ -1217,6 +1268,32 @@ function App() {
 							</>
 						)}
 					</button>
+				</div>
+			)}
+
+			{screenshotToast && (
+				<div className={`screenshot-toast-container ${screenshotToast.hiding ? "hiding" : ""}`}>
+					<div className="screenshot-toast-thumbnail-wrapper" onClick={closeToast}>
+						<img
+							src={screenshotToast.imageUri}
+							alt="Screenshot Preview"
+							className="screenshot-toast-thumbnail"
+						/>
+						<button
+							type="button"
+							className="screenshot-toast-dismiss"
+							onClick={(e) => {
+								e.stopPropagation();
+								closeToast();
+							}}
+							aria-label="Dismiss"
+						>
+							✕
+						</button>
+					</div>
+					<div className="screenshot-toast-bubble">
+						<span>{screenshotToast.message}</span>
+					</div>
 				</div>
 			)}
 		</div>
