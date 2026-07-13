@@ -620,7 +620,7 @@ app.post("/api/roast", async (c) => {
 		// whichever repo happened to be fetched first. The 70B model has plenty of
 		// context headroom for this many one-line commit summaries.
 		const commitSummary = commits
-			.slice(0, 200)
+			.slice(0, 100)
 			.map((commit) => `[${commit.repo}] ${commit.message}`)
 			.join("\n");
 
@@ -631,7 +631,7 @@ app.post("/api/roast", async (c) => {
 			chaosRating: number;
 		}>(
 			c.env,
-			SMART_AI_MODEL,
+			FAST_AI_MODEL,
 			[
 				{
 					role: "system",
