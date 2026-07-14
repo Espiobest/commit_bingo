@@ -16,6 +16,8 @@
 html {
 	min-width: 320px;
 	min-height: 100%;
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
 }
 
 body {

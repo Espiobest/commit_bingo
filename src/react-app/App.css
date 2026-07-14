@@ -131,7 +131,8 @@
 .login-panel h2,
 .board-note h2,
 .board-panel h2,
-.empty-state h2 {
+.empty-state h2,
+.tile-modal__header h2 {
 	margin: 0;
 	font-size: 1.6rem;
 	letter-spacing: -0.03em;
@@ -652,8 +653,9 @@
 	position: fixed;
 	inset: 0;
 	z-index: 40;
-	display: grid;
-	place-items: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	padding: 24px;
 	background: rgba(3, 8, 18, 0.72);
 	backdrop-filter: blur(10px);
@@ -671,11 +673,27 @@
 }
 
 .tile-modal__header {
-	display: flex;
-	justify-content: space-between;
-	gap: 16px;
+	display: grid;
+	grid-template-columns: 1fr auto;
 	align-items: flex-start;
+	gap: 16px;
 	margin-bottom: 16px;
+}
+
+.tile-modal__header > div {
+	min-width: 0;
+}
+
+.tile-modal__header .user-kicker,
+.tile-modal__header h2 {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.tile-modal__header .ghost-button {
+	flex-shrink: 0;
 }
 
 .tile-modal__lede {
@@ -753,6 +771,14 @@
 		gap: 14px;
 	}
 
+	.board-panel {
+		order: 1;
+	}
+
+	.board-sidebar {
+		order: 2;
+	}
+
 	.board-note {
 		position: static;
 		max-width: none;
@@ -763,8 +789,7 @@
 	}
 
 	.bingo-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 10px;
+		gap: 6px;
 	}
 
 	.tile-modal {
@@ -802,12 +827,107 @@
 		width: 100%;
 	}
 
+	.app-shell {
+		padding: 10px;
+	}
+
+	.app-card {
+		padding: 12px;
+		border-radius: 18px;
+	}
+
+	.board-panel {
+		padding: 12px;
+	}
+
+	.board-header {
+		gap: 8px;
+	}
+
 	.bingo-grid {
-		grid-template-columns: 1fr;
+		gap: 4px;
 	}
 
 	.tile-card {
-		min-height: 108px;
+		padding: 6px;
+		gap: 4px;
+		border-radius: 10px;
+	}
+
+	.tile-card__head {
+		gap: 2px;
+	}
+
+	.tile-label {
+		display: -webkit-box;
+		line-clamp: 2;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		font-size: 0.58rem;
+		line-height: 1.15;
+	}
+
+	.tile-meta {
+		display: none;
+	}
+
+	.tile-note {
+		display: none;
+	}
+
+	.tile-card__actions {
+		gap: 2px;
+	}
+
+	.tile-action {
+		padding: 3px 5px;
+		font-size: 0;
+		line-height: 1;
+	}
+
+	.tile-action--ghost::before {
+		content: "i";
+		font-size: 0.68rem;
+		font-style: italic;
+		font-weight: 800;
+	}
+
+	.tile-action--reroll::before {
+		content: "\21BB";
+		font-size: 0.68rem;
+	}
+
+	.tile-modal-backdrop {
+		padding: 10px;
+	}
+
+	.tile-modal {
+		padding: 14px;
+		border-radius: 16px;
+	}
+
+	.summary-grid div,
+	.summary-blocks > div {
+		padding: 10px;
+	}
+
+	/* Message wraps to its own line instead of truncating to a few chars. */
+	.commit-evidence-link {
+		flex-wrap: wrap;
+		gap: 4px 8px;
+	}
+
+	.commit-msg {
+		flex-basis: 100%;
+		white-space: normal;
+		overflow: visible;
+		text-overflow: unset;
+		order: 3;
+	}
+
+	.commit-hash {
+		margin-left: auto;
 	}
 }
 
